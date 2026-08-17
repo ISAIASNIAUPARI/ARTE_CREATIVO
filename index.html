@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;800&family=Ubuntu:wght@400;500;700&family=Ubuntu+Mono&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0a0a0a; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #e6bb52; text-decoration: none; }
+  a:hover { color: #ffffff; }
+  input, textarea, button { font-family: inherit; }
+  @keyframes af-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  @keyframes af-marquee-rev { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+  @keyframes af-glow { 0% { transform: scale(1) translate3d(0,0,0); opacity: .85; } 50% { transform: scale(1.12) translate3d(2%,-2%,0); opacity: 1; } 100% { transform: scale(1) translate3d(0,0,0); opacity: .85; } }
+  @keyframes af-pulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+  @keyframes wa-ping { 0% { transform: scale(1); opacity: .7; } 70%, 100% { transform: scale(1.55); opacity: 0; } }
+</style>
+</helmet>
+
+<div style="background: #0a0a0a; font-family: 'Ubuntu', sans-serif; color: #ffffff; overflow-x: hidden;">
+
+  <header style="position: absolute; top: 0; left: 0; right: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 34px clamp(20px, 5vw, 96px);">
+    <a href="#inicio" style="display: block; line-height: 1;">
+      <img src="assets/logo-arte-creativo.png" alt="Arte Creativo" style="display: block; height: 66px; width: auto;" />
+    </a>
+    <button type="button" onClick="{{ toggleMenu }}" aria-label="Abrir menú" style="display: flex; flex-direction: column; justify-content: center; gap: 6px; width: 54px; height: 44px; padding: 0; background: transparent; border: 0; cursor: pointer;">
+      <span style="display: block; height: 7px; border-radius: 3px; background: #ffffff;"></span>
+      <span style="display: block; height: 7px; border-radius: 3px; background: #ffffff;"></span>
+      <span style="display: block; height: 7px; border-radius: 3px; background: #ffffff;"></span>
+    </button>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onBackdrop }}" style="position: fixed; inset: 0; z-index: 90; background: rgba(0,0,0,.55); overflow-y: auto;">
+      <div style="position: relative; background: #2b2b2b; padding: 38px clamp(20px, 5vw, 80px) 52px; box-shadow: 0 26px 60px rgba(0,0,0,.5);">
+        <button type="button" onClick="{{ toggleMenu }}" aria-label="Cerrar menú" style="position: absolute; z-index: 3; top: 14px; right: 14px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: transparent; border: 0; color: #ffffff; font-size: 34px; font-weight: 300; line-height: 1; cursor: pointer;" style-hover="color: #f3c13b;">×</button>
+
+        <a href="index.html" style="display: block; width: max-content; margin: 0 auto; line-height: 1;">
+          <img src="assets/logo-arte-creativo.png" alt="Arte Creativo" style="display: block; height: 84px; width: auto; margin: 0 auto;" />
+        </a>
+
+        <div style="width: min(280px, 60%); height: 1px; background: rgba(255,255,255,.55); margin: 30px auto 34px;"></div>
+
+        <div style="max-width: 780px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 22px 14px;">
+          <a href="index.html" style="flex: 1 1 170px; text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(17px, 1.5vw, 22px); color: #f3c13b; padding: 8px 0;" style-hover="color: #ffffff;">Inicio</a>
+          <a href="Portafolio.dc.html" style="flex: 1 1 170px; text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(17px, 1.5vw, 22px); color: #ffffff; padding: 8px 0;" style-hover="color: #f3c13b;">Portafolio</a>
+          <a href="Blog.dc.html" style="flex: 1 1 170px; text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(17px, 1.5vw, 22px); color: #ffffff; padding: 8px 0;" style-hover="color: #f3c13b;">Blog</a>
+          <a href="Nosotros.dc.html" style="flex: 1 1 170px; text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(17px, 1.5vw, 22px); color: #ffffff; padding: 8px 0;" style-hover="color: #f3c13b;">Nosotros</a>
+          <a href="Contacto.dc.html" style="flex: 1 1 170px; text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(17px, 1.5vw, 22px); color: #ffffff; padding: 8px 0;" style-hover="color: #f3c13b;">Contactar</a>
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-top: 42px;">
+          <a href="https://w.app/ztwmvu" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; background: #25d366; color: #ffffff; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 16px; padding: 15px 30px; border-radius: 6px; transition: transform .3s ease, background .3s ease;" style-hover="transform: translateY(-4px); background: #1fbb59; color: #ffffff;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.24c-.24.68-1.4 1.3-1.93 1.36-.5.06-1.02.28-3.4-.7-2.86-1.18-4.7-4.08-4.84-4.27-.14-.19-1.16-1.55-1.16-2.95 0-1.4.73-2.08 1-2.36.27-.28.6-.35.8-.35.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.08.92 2.23.07.15.12.33.02.52-.1.19-.15.31-.3.48-.15.17-.31.38-.44.5-.15.15-.3.31-.13.6.17.3.76 1.26 1.64 2.04 1.13 1 2.08 1.32 2.38 1.47.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.24.65-.15.27.1 1.7.8 1.99.95.29.15.48.22.55.34.07.13.07.75-.17 1.43z"></path></svg>
+            Asesoria
+          </a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <section id="inicio" data-screen-label="Hero" style="position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 130px clamp(20px, 5vw, 96px) 74px; overflow: hidden; background: #0d0d0d;">
+    <video src="assets/hero-bg.mp4" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;"></video>
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,5,5,.72) 0%, rgba(8,8,8,.45) 40%, rgba(7,7,7,.85) 100%); pointer-events: none;"></div>
+
+    <div data-reveal="1" style="position: relative; border: 1px solid rgba(230,187,82,.55); background: rgba(40,40,40,.45); border-radius: 10px; padding: 12px clamp(24px, 3.4vw, 48px); margin-bottom: clamp(22px, 4vh, 44px);">
+      <h2 style="margin: 0; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(16px, 1.5vw, 23px); line-height: 1.3; color: #f3c13b;">Diseño de Páginas web <br /> Quito - Ecuador</h2>
+    </div>
+
+    <h1 data-reveal="1" style="position: relative; margin: 0; max-width: 1560px; font-family: 'Exo', sans-serif; font-weight: 800; font-size: clamp(42px, 7.4vw, 124px); line-height: 1.02; letter-spacing: -1px; color: #ffffff; text-wrap: balance;">Transformo tu visión en una plataforma de <span style="color: #f6d98d;">ventas</span> de alto impacto</h1>
+
+    <p data-reveal="1" style="position: relative; margin: clamp(30px, 5.5vh, 62px) 0 0; max-width: 1320px; font-size: clamp(15px, 1.35vw, 23px); line-height: 1.45; color: rgba(255,255,255,.92);">Diseño sitios web rápidos, modernos y optimizados para Google que convierten visitantes en clientes.</p>
+
+    <a data-reveal="1" href="https://w.app/ztwmvu" target="_blank" rel="noopener" style="position: relative; margin-top: clamp(20px, 3.2vh, 34px); background: #e6bb52; color: #161616; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1.2px; padding: 14px 26px; border-radius: 4px; transition: transform .3s ease, background .3s ease;" style-hover="transform: translateY(-12px); background: #f3c13b;">ASESORIA GRATUITA</a>
+
+  </section>
+
+  <div style="background: #222222; overflow: hidden; padding: 20px 0; border-top: 1px solid rgba(255,255,255,.05); border-bottom: 1px solid rgba(255,255,255,.05);">
+    <div data-marquee="1" data-marquee-speed="55" style="display: flex; width: max-content;">
+      <div style="display: flex; flex-shrink: 0; gap: 50px; padding-right: 50px; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(.9rem, 1.1vw, 1.2rem); text-transform: uppercase; letter-spacing: 1.5px; color: #e6bb52; white-space: nowrap;">
+        <span>DISEÑO WEB EN QUITO</span><span>•</span><span>WORDPRESS &amp; ELEMENTOR PRO</span><span>•</span><span>LANDING PAGES DE ALTO IMPACTO</span><span>•</span><span>OPTIMIZACIÓN SEO</span><span>•</span><span>IMPLEMENTACIÓN DE IA</span><span>•</span><span>TRACKING DE META PIXEL</span><span>•</span>
+      </div>
+      <div aria-hidden="true" style="display: flex; flex-shrink: 0; gap: 50px; padding-right: 50px; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(.9rem, 1.1vw, 1.2rem); text-transform: uppercase; letter-spacing: 1.5px; color: #e6bb52; white-space: nowrap;">
+        <span>DISEÑO WEB EN QUITO</span><span>•</span><span>WORDPRESS &amp; ELEMENTOR PRO</span><span>•</span><span>LANDING PAGES DE ALTO IMPACTO</span><span>•</span><span>OPTIMIZACIÓN SEO</span><span>•</span><span>IMPLEMENTACIÓN DE IA</span><span>•</span><span>TRACKING DE META PIXEL</span><span>•</span>
+      </div>
+    </div>
+  </div>
+
+  <section ref="{{ problemsRef }}" data-screen-label="Problemas" style="position: relative; overflow: hidden; background: linear-gradient(180deg, #1c1c1c 0%, #181818 60%, #131313 100%); padding: clamp(70px, 10vh, 130px) clamp(20px, 5vw, 96px) clamp(210px, 20vh, 240px);">
+    <sc-if value="{{ showTape }}" hint-placeholder-val="{{ true }}">
+      <div aria-hidden="true" style="position: absolute; left: -8%; right: -8%; bottom: clamp(-40px, -4vw, -10px); top: auto; height: clamp(180px, 30vw, 420px); pointer-events: none; z-index: 3; will-change: transform, opacity; transition: opacity .12s linear, transform .12s linear; opacity: {{ tapeOpacity }}; transform: translateY({{ tapeOffset }}px);">
+        <div style="position: absolute; left: 0; right: 0; top: clamp(6px, 3vw, 40px); transform: rotate(9deg); background: #e5b93b; padding: clamp(15px, 2.4vw, 20px) 0; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.35);" style-before="content: ''; position: absolute; top: 5px; left: 0; right: 0; height: 7px; background: repeating-linear-gradient(90deg, #141414 0 16px, transparent 16px 40px);" style-after="content: ''; position: absolute; bottom: 5px; left: 0; right: 0; height: 7px; background: repeating-linear-gradient(90deg, #141414 0 16px, transparent 16px 40px);">
+          <div style="display: flex; gap: 26px; white-space: nowrap; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(11px, 1.4vw, 22px); letter-spacing: 2px; color: #141414;">
+            <span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span>
+          </div>
+        </div>
+        <div style="position: absolute; left: 0; right: 0; top: clamp(90px, 15vw, 210px); transform: rotate(-9deg); background: #e5b93b; padding: clamp(15px, 2.4vw, 20px) 0; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.35);" style-before="content: ''; position: absolute; top: 5px; left: 0; right: 0; height: 7px; background: repeating-linear-gradient(90deg, #141414 0 16px, transparent 16px 40px);" style-after="content: ''; position: absolute; bottom: 5px; left: 0; right: 0; height: 7px; background: repeating-linear-gradient(90deg, #141414 0 16px, transparent 16px 40px);">
+          <div style="display: flex; gap: 26px; white-space: nowrap; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(11px, 1.4vw, 22px); letter-spacing: 2px; color: #141414;">
+            <span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span><span>- PELIGRO</span>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="position: relative; z-index: 4; max-width: 1200px; margin: 0 auto;">
+      <h2 data-reveal="1" style="margin: 0; text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(32px, 4.4vw, 76px); line-height: 1.1; color: #ffffff;">Los 3 Problemas de una Página Web</h2>
+      <p data-reveal="1" style="margin: 22px auto 0; max-width: 900px; text-align: center; font-size: clamp(15px, 1.35vw, 24px); line-height: 1.5; color: rgba(255,255,255,.9);">Muchos negocios pierden oportunidades por tener una web que no comunica confianza.</p>
+
+      <div style="margin-top: clamp(34px, 5vh, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px;">
+        <div data-reveal="1" style="background: rgba(255,255,255,.035); border: 1px solid rgba(230,187,82,.16); border-radius: 14px; padding: clamp(26px, 2.6vw, 44px); transition: transform .35s ease, background .35s ease;" style-hover="transform: translateY(-10px); background: rgba(255,255,255,.07);">
+          <div style="width: 56px; height: 56px; border-radius: 8px; background: rgba(230,187,82,.14); display: flex; align-items: center; justify-content: center; color: #f3c13b;">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 9l2 2M10 9l-2 2M14 9l2 2M16 9l-2 2"></path><circle cx="12" cy="16" r="1.6"></circle></svg>
+          </div>
+          <h3 style="margin: 26px 0 0; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(21px, 1.7vw, 27px); color: #ffffff;">¿No Vende?</h3>
+          <p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.78);">Tu sitio debe ser un imán de clientes, no un gasto.</p>
+        </div>
+
+        <div data-reveal="1" style="background: rgba(255,255,255,.035); border: 1px solid rgba(230,187,82,.16); border-radius: 14px; padding: clamp(26px, 2.6vw, 44px); transition: transform .35s ease, background .35s ease;" style-hover="transform: translateY(-10px); background: rgba(255,255,255,.07);">
+          <div style="width: 56px; height: 56px; border-radius: 8px; background: rgba(230,187,82,.14); display: flex; align-items: center; justify-content: center; color: #f3c13b;">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 9l2 2M10 9l-2 2M14 9l2 2M16 9l-2 2"></path><circle cx="12" cy="16" r="1.6"></circle></svg>
+          </div>
+          <h3 style="margin: 26px 0 0; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(21px, 1.7vw, 27px); color: #ffffff;">¿Es Lenta?</h3>
+          <p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.78);">Si tarda más de 3 segundos en cargar, el cliente se va con la competencia.</p>
+        </div>
+
+        <div data-reveal="1" style="background: rgba(255,255,255,.035); border: 1px solid rgba(230,187,82,.16); border-radius: 14px; padding: clamp(26px, 2.6vw, 44px); transition: transform .35s ease, background .35s ease;" style-hover="transform: translateY(-10px); background: rgba(255,255,255,.07);">
+          <div style="width: 56px; height: 56px; border-radius: 8px; background: rgba(230,187,82,.14); display: flex; align-items: center; justify-content: center; color: #f3c13b;">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 9l2 2M10 9l-2 2M14 9l2 2M16 9l-2 2"></path><circle cx="12" cy="16" r="1.6"></circle></svg>
+          </div>
+          <h3 style="margin: 26px 0 0; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(21px, 1.7vw, 27px); color: #ffffff;">¿Desactualizada?</h3>
+          <p style="margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.78);">Un diseño obsoleto aleja a los clientes de alto valor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portafolio" data-screen-label="Proyectos" style="background: #0e0e0e; padding: clamp(70px, 10vh, 120px) clamp(20px, 5vw, 96px);">
+    <div style="max-width: 1280px; margin: 0 auto;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px;">
+        <div style="max-width: 720px;">
+          <h2 data-reveal="1" style="margin: 0; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 58px); line-height: 1.12; color: #ffffff;">Proyectos que impulsan negocios</h2>
+          <p data-reveal="1" data-reveal-delay="90" style="margin: 18px 0 0; font-size: clamp(15px, 1.2vw, 19px); line-height: 1.6; color: rgba(255,255,255,.72);">Una selección de trabajos donde el diseño y la funcionalidad se unen para generar resultados reales.</p>
+        </div>
+        <a data-reveal="1" data-reveal-delay="180" href="Portafolio.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: #e6bb52; color: #161616; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .6px; padding: 14px 22px; border-radius: 4px; transition: transform .3s ease;" style-hover="transform: scale(.92);">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M10 8l5 4-5 4z"></path></svg>
+          Ver todos los proyectos
+        </a>
+      </div>
+
+      <div ref="{{ trackRef }}" onScroll="{{ onTrackScroll }}" onMouseEnter="{{ pauseAuto }}" onMouseLeave="{{ resumeAuto }}" style="margin-top: clamp(32px, 5vh, 56px); display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px;">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="2">
+          <article style="flex: 0 0 clamp(280px, 48%, 620px); scroll-snap-align: start; background: #1a1a1a; border: 1px solid rgba(230,187,82,.12); border-radius: 12px; padding: clamp(24px, 3vw, 48px) clamp(22px, 3vw, 46px); display: flex; flex-direction: column; gap: 16px; transition: border-color .35s ease, transform .35s ease;" style-hover="border-color: rgba(230,187,82,.4); transform: translateY(-6px);">
+            <h3 style="margin: 0; font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .4px; color: #e6bb52; text-transform: none;">{{ p.label }}</h3>
+            <h2 style="margin: 0; font-family: 'Ubuntu', sans-serif; font-size: clamp(20px, 2vw, 30px); font-weight: 600; line-height: 1.2; color: #ffffff;">{{ p.title }}</h2>
+            <div style="aspect-ratio: 3 / 4; border-radius: 12px; overflow: hidden; border: 1px solid rgba(230,187,82,.14); background: #0f0f0f;">
+              <img src="{{ p.img }}" alt="{{ p.title }}" loading="lazy" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center;" />
+            </div>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.75); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">{{ p.desc }}</p>
+            <a href="{{ p.href }}" style="align-self: flex-start; margin-top: 4px; background: #e6bb52; color: #161616; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .8px; padding: 12px 20px; border-radius: 4px; transition: background .3s ease;" style-hover="background: #f3c13b;">Ver Proyecto</a>
+          </article>
+        </sc-for>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 28px;">
+        <sc-for list="{{ bullets }}" as="b" hint-placeholder-count="4">
+          <button type="button" aria-label="Ir al proyecto" onClick="{{ b.go }}" style="height: 8px; border: 0; border-radius: 99px; padding: 0; background: transparent; cursor: pointer; display: flex; align-items: center;">
+            <sc-if value="{{ b.on }}" hint-placeholder-val="{{ false }}">
+              <span style="display: block; width: 26px; height: 8px; border-radius: 99px; background: #e6bb52;"></span>
+            </sc-if>
+            <sc-if value="{{ b.off }}" hint-placeholder-val="{{ true }}">
+              <span style="display: block; width: 8px; height: 8px; border-radius: 99px; background: rgba(230,187,82,.3);"></span>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-mi" data-screen-label="Sobre mi" style="background: linear-gradient(180deg, #131313 0%, #1c1c1c 100%); padding: clamp(60px, 9vh, 110px) clamp(20px, 5vw, 96px);">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(32px, 5vw, 72px); align-items: center;">
+      <div>
+        <a data-reveal="1" href="Nosotros.dc.html" style="font-family: 'Exo', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: #f3c13b;">Sobre Mí</a>
+        <h2 data-reveal="1" data-reveal-delay="80" style="margin: 18px 0 0; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 56px); line-height: 1.12; color: #ffffff;">Tu socio estratégico en el mundo digital</h2>
+        <p data-reveal="1" data-reveal-delay="160" style="margin: 22px 0 0; font-size: clamp(15px, 1.2vw, 19px); line-height: 1.7; color: rgba(255,255,255,.85);">Fusiono visión artística e IA avanzada para construir herramientas digitales que no solo se ven bien, sino que facturan.</p>
+        <div data-reveal="1" data-reveal-delay="240" style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px 28px;">
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 16px; color: #ffffff;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f3c13b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.6 2.6L16 9.7"></path></svg>
+            Diseño Web
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 16px; color: #ffffff;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f3c13b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.6 2.6L16 9.7"></path></svg>
+            SEO &amp; Optimización
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 16px; color: #ffffff;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f3c13b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.6 2.6L16 9.7"></path></svg>
+            Multimedia con IA
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 16px; color: #ffffff;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f3c13b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.6 2.6L16 9.7"></path></svg>
+            Publicidad Digital (Ads)
+          </div>
+        </div>
+      </div>
+      <div data-reveal="1" style="position: relative; display: flex; justify-content: center;">
+        <img src="assets/alex-standing.png" alt="Isaías Anrrango, diseñador web freelance en Quito" onMouseMove="{{ onAvatarMove }}" onMouseLeave="{{ onAvatarLeave }}" style="width: 100%; max-width: 460px; height: auto; display: block; filter: drop-shadow(0 30px 50px rgba(0,0,0,.45)); will-change: transform;" />
+        <div style="position: absolute; right: 2%; bottom: 8%; background: #f6d98d; color: #161616; border-radius: 12px; padding: 16px 30px; text-align: center; transform: rotate(-3deg); box-shadow: 0 14px 32px rgba(0,0,0,.35);">
+          <div style="font-family: 'Exo', sans-serif; font-weight: 800; font-size: clamp(22px, 2.2vw, 34px); line-height: 1;">+2 Años</div>
+          <div style="margin-top: 6px; font-family: 'Exo', sans-serif; font-weight: 600; font-size: clamp(11px, 1vw, 15px); letter-spacing: 1.2px;">EXPERIENCIA DIGITAL</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultados" data-screen-label="Resultados" style="background: #0e0e0e; padding: clamp(60px, 9vh, 110px) 0; overflow: hidden;">
+    <h2 data-reveal="1" style="margin: 0 clamp(20px, 5vw, 96px) clamp(34px, 5vh, 56px); text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 58px); color: #ffffff;">Resultados Reales</h2>
+
+    <div style="overflow: hidden; margin-bottom: 20px;">
+      <div data-marquee="1" data-marquee-speed="35" data-marquee-speed-mobile="14" style="display: flex; width: max-content;">
+        <div style="display: flex; flex-shrink: 0; gap: 20px; padding-right: 20px;">
+          <sc-for list="{{ testimonials }}" as="r" hint-placeholder-count="4">
+            <div style="flex: 0 0 auto; width: clamp(150px, 40vw, 340px); border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: #141414; padding: clamp(10px, 2.6vw, 26px) clamp(9px, 2.4vw, 24px); display: flex; flex-direction: column; gap: 5px;">
+              <span style="font-size: clamp(7px, 1.9vw, 11px); font-weight: 700; letter-spacing: .3px; color: #e6bb52;">{{ r.company }}</span>
+              <span style="font-family: 'Exo', sans-serif; font-size: clamp(12px, 3.4vw, 22px); font-weight: 700; color: #ffffff;">{{ r.name }}</span>
+              <span style="font-size: clamp(9px, 2.6vw, 17px); letter-spacing: 2px; color: #f3c13b;">★★★★★</span>
+              <p style="margin: 0; font-size: clamp(8.5px, 2.2vw, 13.5px); line-height: 1.5; text-align: justify; color: rgba(255,255,255,.8);">{{ r.text }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <div aria-hidden="true" style="display: flex; flex-shrink: 0; gap: 20px; padding-right: 20px;">
+          <sc-for list="{{ testimonials }}" as="r" hint-placeholder-count="4">
+            <div style="flex: 0 0 auto; width: clamp(150px, 40vw, 340px); border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: #141414; padding: clamp(10px, 2.6vw, 26px) clamp(9px, 2.4vw, 24px); display: flex; flex-direction: column; gap: 5px;">
+              <span style="font-size: clamp(7px, 1.9vw, 11px); font-weight: 700; letter-spacing: .3px; color: #e6bb52;">{{ r.company }}</span>
+              <span style="font-family: 'Exo', sans-serif; font-size: clamp(12px, 3.4vw, 22px); font-weight: 700; color: #ffffff;">{{ r.name }}</span>
+              <span style="font-size: clamp(9px, 2.6vw, 17px); letter-spacing: 2px; color: #f3c13b;">★★★★★</span>
+              <p style="margin: 0; font-size: clamp(8.5px, 2.2vw, 13.5px); line-height: 1.5; text-align: justify; color: rgba(255,255,255,.8);">{{ r.text }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="overflow: hidden;">
+      <div data-marquee="-1" data-marquee-speed="35" data-marquee-speed-mobile="14" style="display: flex; width: max-content;">
+        <div style="display: flex; flex-shrink: 0; gap: 20px; padding-right: 20px;">
+          <sc-for list="{{ testimonialsAlt }}" as="r" hint-placeholder-count="4">
+            <div style="flex: 0 0 auto; width: clamp(150px, 40vw, 340px); border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: #141414; padding: clamp(10px, 2.6vw, 26px) clamp(9px, 2.4vw, 24px); display: flex; flex-direction: column; gap: 5px;">
+              <span style="font-size: clamp(7px, 1.9vw, 11px); font-weight: 700; letter-spacing: .3px; color: #e6bb52;">{{ r.company }}</span>
+              <span style="font-family: 'Exo', sans-serif; font-size: clamp(12px, 3.4vw, 22px); font-weight: 700; color: #ffffff;">{{ r.name }}</span>
+              <span style="font-size: clamp(9px, 2.6vw, 17px); letter-spacing: 2px; color: #f3c13b;">★★★★★</span>
+              <p style="margin: 0; font-size: clamp(8.5px, 2.2vw, 13.5px); line-height: 1.5; text-align: justify; color: rgba(255,255,255,.8);">{{ r.text }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <div aria-hidden="true" style="display: flex; flex-shrink: 0; gap: 20px; padding-right: 20px;">
+          <sc-for list="{{ testimonialsAlt }}" as="r" hint-placeholder-count="4">
+            <div style="flex: 0 0 auto; width: clamp(150px, 40vw, 340px); border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: #141414; padding: clamp(10px, 2.6vw, 26px) clamp(9px, 2.4vw, 24px); display: flex; flex-direction: column; gap: 5px;">
+              <span style="font-size: clamp(7px, 1.9vw, 11px); font-weight: 700; letter-spacing: .3px; color: #e6bb52;">{{ r.company }}</span>
+              <span style="font-family: 'Exo', sans-serif; font-size: clamp(12px, 3.4vw, 22px); font-weight: 700; color: #ffffff;">{{ r.name }}</span>
+              <span style="font-size: clamp(9px, 2.6vw, 17px); letter-spacing: 2px; color: #f3c13b;">★★★★★</span>
+              <p style="margin: 0; font-size: clamp(8.5px, 2.2vw, 13.5px); line-height: 1.5; text-align: justify; color: rgba(255,255,255,.8);">{{ r.text }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" data-screen-label="Contacto" style="background: linear-gradient(180deg, #1c1c1c 0%, #101010 100%); padding: clamp(60px, 9vh, 110px) clamp(20px, 5vw, 96px);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <h3 data-reveal="1" style="margin: 0; text-align: center; font-family: 'Exo', sans-serif; font-weight: 700; font-size: clamp(28px, 3.4vw, 54px); line-height: 1.15; color: #ffffff;">¿Listo para el siguiente nivel?</h3>
+      <p data-reveal="1" style="margin: 18px auto 0; max-width: 780px; text-align: center; font-size: clamp(15px, 1.2vw, 20px); line-height: 1.6; color: rgba(255,255,255,.85);">Muchos negocios pierden oportunidades por tener una web que no comunica confianza.</p>
+
+      <div style="margin-top: clamp(36px, 6vh, 64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(28px, 4vw, 56px); align-items: start;">
+        <div data-reveal="1">
+          <img src="assets/logo-arte-creativo.png" alt="Arte Creativo" style="display: block; height: 72px; width: auto;" />
+          <p style="margin: 24px 0 0; max-width: 420px; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.82);">Trabajo desde Quito, Ecuador, ofreciendo atención directa a negocios locales. Aquí puedes ver dónde estoy ubicado.</p>
+          <a href="https://maps.app.goo.gl/YcRFeSqC4J721aLz5" target="_blank" rel="noopener" style="display: inline-block; margin-top: 24px; background: #e6bb52; color: #161616; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .8px; padding: 13px 22px; border-radius: 4px; transition: transform .3s ease;" style-hover="transform: scale(.92);">Ver en el Mapa</a>
+          <ul style="list-style: none; margin: 30px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 16px; color: rgba(255,255,255,.85);">
+            <li>+593 96 260 6760</li>
+            <li>info@alexfreelancer.com</li>
+            <li>Quito - Ecuador</li>
+          </ul>
+        </div>
+
+        <div data-reveal="1" style="background: rgba(255,255,255,.045); border: 1px solid rgba(230,187,82,.18); border-radius: 16px; padding: clamp(24px, 3vw, 40px);">
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 12px; padding: 30px 0; text-align: center;">
+              <span style="font-family: 'Exo', sans-serif; font-weight: 700; font-size: 24px; color: #f3c13b;">¡Mensaje enviado!</span>
+              <span style="font-size: 16px; color: rgba(255,255,255,.8);">Gracias. Te contacto en las próximas horas.</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ onSubmit }}" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px;">
+              <label data-reveal="1" style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: rgba(255,255,255,.85);">
+                Nombre y Apellido
+                <input type="text" name="nombre" required="required" placeholder="Tu nombre y apellido" style="background: rgba(0,0,0,.35); border: 1px solid rgba(230,187,82,.22); border-radius: 8px; padding: 13px 14px; font-size: 15px; color: #ffffff; outline: none;" style-focus="border-color: #e6bb52;" />
+              </label>
+              <label data-reveal="1" data-reveal-delay="80" style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: rgba(255,255,255,.85);">
+                Número Celular
+                <input type="tel" name="telefono" required="required" placeholder="Número celular" style="background: rgba(0,0,0,.35); border: 1px solid rgba(230,187,82,.22); border-radius: 8px; padding: 13px 14px; font-size: 15px; color: #ffffff; outline: none; min-width: 0;" style-focus="border-color: #e6bb52;" />
+              </label>
+              <label data-reveal="1" data-reveal-delay="160" style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: rgba(255,255,255,.85);">
+                Descripción del proyecto
+                <textarea name="mensaje" rows="4" placeholder="Cuéntame sobre tus metas y que deseas lograr...." style="background: rgba(0,0,0,.35); border: 1px solid rgba(230,187,82,.22); border-radius: 8px; padding: 13px 14px; font-size: 15px; color: #ffffff; outline: none; resize: vertical;" style-focus="border-color: #e6bb52;"></textarea>
+              </label>
+              <span style="grid-column: 1 / -1; font-size: 13px; color: #ff9f9f; min-height: 18px;">{{ error }}</span>
+              <button data-reveal="1" data-reveal-delay="240" type="submit" style="grid-column: 1 / -1; background: #e6bb52; color: #161616; border: 0; border-radius: 4px; padding: 15px 20px; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 1px; cursor: pointer; transition: background .3s ease;" style-hover="background: #f3c13b;">Enviar</button>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background: #0a0a0a; padding: 36px clamp(20px, 5vw, 96px); text-align: center;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 26px; margin-bottom: 18px; font-size: 14px;">
+      <a href="index.html">Inicio</a>
+      <a href="Portafolio.dc.html">Portafolio</a>
+      <a href="Blog.dc.html">Blog</a>
+      <a href="Nosotros.dc.html">Sobre mí</a>
+      <a href="Contacto.dc.html">Contacto</a>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,.6);">Todos los derechos reservados. © Isaías Freelancer 2026</p>
+  </footer>
+
+  <sc-if value="{{ showBadge }}" hint-placeholder-val="{{ true }}">
+    <div style="position: fixed; right: 22px; bottom: 108px; z-index: 60; display: flex; align-items: center; gap: 8px; background: #0c0c0c; border: 1px solid rgba(230,187,82,.35); border-radius: 8px; padding: 9px 14px; box-shadow: 0 10px 26px rgba(0,0,0,.45);">
+      <span style="width: 8px; height: 8px; border-radius: 99px; background: #f3c13b; animation: af-pulse 2s ease-in-out infinite;"></span>
+      <span style="font-size: 13px; color: rgba(255,255,255,.85);"><strong style="color: #f3c13b;">{{ count }}</strong> personas consultando ahora</span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ chatOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; right: 12px; left: auto; bottom: 92px; z-index: 75; width: min(360px, calc(100vw - 24px)); background: #101010; border: 2px solid #f3c13b; border-radius: 20px; overflow: hidden; box-shadow: 0 26px 64px rgba(0,0,0,.65);">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #1c1c1c;">
+        <img src="assets/bot-avatar.png" alt="Asistente Artly" style="width: 44px; height: 44px; border-radius: 12px; object-fit: cover; object-position: center; background: #131313; border: 1px solid rgba(230,187,82,.5);" />
+        <div style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0;">
+          <span style="font-family: 'Exo', sans-serif; font-weight: 700; font-size: 17px; color: #ffffff;">Asistente Artly</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,.75);">
+            <span style="width: 7px; height: 7px; border-radius: 99px; background: #f3c13b; animation: af-pulse 2s ease-in-out infinite;"></span>
+            En línea · Responde al instante
+          </span>
+        </div>
+        <button type="button" onClick="{{ backToLauncher }}" aria-label="Volver" style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); border: 0; border-radius: 9px; color: #ffffff; font-size: 17px; line-height: 1; cursor: pointer;" style-hover="background: rgba(255,255,255,.24);">←</button>
+        <button type="button" onClick="{{ closeAll }}" aria-label="Cerrar chat" style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); border: 0; border-radius: 9px; color: #ffffff; font-size: 19px; line-height: 1; cursor: pointer;" style-hover="background: rgba(255,255,255,.24);">×</button>
+      </div>
+
+      <div ref="{{ logRef }}" style="max-height: min(300px, 34vh); overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+        <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
+          <p style="margin: 0; max-width: 88%; font-size: 14px; line-height: 1.55; border-radius: 14px; padding: 12px 14px; white-space: pre-wrap; align-self: {{ m.align }}; background: {{ m.bg }}; color: {{ m.color }};">{{ m.text }}</p>
+        </sc-for>
+        <sc-if value="{{ thinking }}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; align-self: flex-start; font-size: 14px; border-radius: 14px; padding: 12px 16px; background: rgba(255,255,255,.07); color: rgba(255,255,255,.6);">Escribiendo…</p>
+        </sc-if>
+      </div>
+
+      <div style="padding: 0 14px; display: flex; flex-direction: column; gap: 5px;">
+        <sc-for list="{{ quick }}" as="q" hint-placeholder-count="3">
+          <button type="button" onClick="{{ q.send }}" style="width: 100%; text-align: left; background: rgba(255,255,255,.05); border: 1px solid rgba(230,187,82,.3); border-radius: 8px; padding: 7px 10px; font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 500; line-height: 1.3; color: #f6d98d; cursor: pointer; transition: background .25s ease, transform .25s ease;" style-hover="background: rgba(243,193,59,.14); transform: translateX(3px);">{{ q.label }}</button>
+        </sc-for>
+      </div>
+
+      <div style="padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 8px;">
+        <a href="https://w.app/ztwmvu" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #25d366; color: #ffffff; border-radius: 8px; padding: 10px 12px; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 13px;" style-hover="background: #1fbb59; color: #ffffff;">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.24c-.24.68-1.4 1.3-1.93 1.36-.5.06-1.02.28-3.4-.7-2.86-1.18-4.7-4.08-4.84-4.27-.14-.19-1.16-1.55-1.16-2.95 0-1.4.73-2.08 1-2.36.27-.28.6-.35.8-.35.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.08.92 2.23.07.15.12.33.02.52-.1.19-.15.31-.3.48-.15.17-.31.38-.44.5-.15.15-.3.31-.13.6.17.3.76 1.26 1.64 2.04 1.13 1 2.08 1.32 2.38 1.47.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.24.65-.15.27.1 1.7.8 1.99.95.29.15.48.22.55.34.07.13.07.75-.17 1.43z"></path></svg>
+          Chatear por WhatsApp
+        </a>
+        <form onSubmit="{{ onSend }}" style="display: flex; align-items: center; gap: 10px;">
+          <input type="text" name="q" value="{{ draft }}" onChange="{{ onDraft }}" placeholder="Escribe tu pregunta..." style="flex: 1; min-width: 0; background: rgba(0,0,0,.3); border: 1px solid rgba(230,187,82,.3); border-radius: 10px; padding: 11px 12px; font-size: 13px; color: #ffffff; outline: none;" style-focus="border-color: #f3c13b;" />
+          <button type="submit" aria-label="Enviar" style="width: 42px; height: 42px; flex: 0 0 42px; display: flex; align-items: center; justify-content: center; background: #f3c13b; border: 0; border-radius: 10px; color: #101010; cursor: pointer; transition: transform .25s ease;" style-hover="transform: scale(1.06);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 20l18-8L3 4l4 8-4 8z"></path></svg>
+          </button>
+        </form>
+        <button type="button" onClick="{{ resetChat }}" style="background: transparent; border: 0; padding: 2px 0; font-size: 12px; color: rgba(255,255,255,.55); cursor: pointer;" style-hover="color: #f6d98d;">↺ Reiniciar conversación</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showCookies }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; left: 22px; bottom: 22px; z-index: 80; width: min(430px, calc(100vw - 44px)); background: #222222; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 18px 20px; box-shadow: 0 18px 44px rgba(0,0,0,.55);">
+      <h4 style="margin: 0; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: #ffffff;">Ayúdenos a mejorar su experiencia digital</h4>
+      <p style="margin: 10px 0 0; font-size: 12px; line-height: 1.55; color: rgba(255,255,255,.75);">Usamos cookies para el funcionamiento del sitio, analizar el tráfico y medir campañas (Meta Pixel y Google Analytics). Al hacer clic en "Aceptar todas" aceptas nuestra <a href="#contacto" style="color: #e6bb52; text-decoration: underline;">Política de cookies</a> y la <a href="#contacto" style="color: #e6bb52; text-decoration: underline;">Política de privacidad</a>.</p>
+      <div style="margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+        <button type="button" onClick="{{ rejectCookies }}" style="background: transparent; border: 0; padding: 8px 0; font-family: 'Exo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: .8px; text-transform: uppercase; color: rgba(255,255,255,.85); text-decoration: underline; cursor: pointer;" style-hover="color: #e6bb52;">Solo necesarias</button>
+        <button type="button" onClick="{{ acceptCookies }}" style="margin-left: auto; background: #e6bb52; color: #161616; border: 0; border-radius: 4px; padding: 11px 18px; font-family: 'Exo', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .8px; text-transform: uppercase; cursor: pointer; transition: background .3s ease;" style-hover="background: #f3c13b;">Aceptar todas las cookies</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ launcherOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; right: 12px; bottom: 92px; z-index: 74; width: min(330px, calc(100vw - 24px)); display: flex; flex-direction: column; gap: 12px;">
+      <a href="https://w.app/ztwmvu" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 14px; background: #25d366; border-radius: 16px; padding: 15px 18px; box-shadow: 0 16px 38px rgba(0,0,0,.5); transition: transform .25s ease;" style-hover="transform: translateX(-6px); color: #ffffff;">
+        <span style="width: 34px; height: 34px; flex: 0 0 34px; border-radius: 99px; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; color: #ffffff;">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.24c-.24.68-1.4 1.3-1.93 1.36-.5.06-1.02.28-3.4-.7-2.86-1.18-4.7-4.08-4.84-4.27-.14-.19-1.16-1.55-1.16-2.95 0-1.4.73-2.08 1-2.36.27-.28.6-.35.8-.35.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.08.92 2.23.07.15.12.33.02.52-.1.19-.15.31-.3.48-.15.17-.31.38-.44.5-.15.15-.3.31-.13.6.17.3.76 1.26 1.64 2.04 1.13 1 2.08 1.32 2.38 1.47.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.24.65-.15.27.1 1.7.8 1.99.95.29.15.48.22.55.34.07.13.07.75-.17 1.43z"></path></svg>
+        </span>
+        <span style="display: flex; flex-direction: column; gap: 3px; flex: 1;">
+          <span style="font-family: 'Exo', sans-serif; font-weight: 700; font-size: 18px; color: #ffffff;">WhatsApp</span>
+          <span style="font-size: 13px; color: rgba(255,255,255,.85);">Habla directo con Isaías</span>
+        </span>
+        <span style="font-size: 16px; color: rgba(255,255,255,.8);">›</span>
+      </a>
+      <button type="button" onClick="{{ openBot }}" style="display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; background: #262626; border: 2px solid #f3c13b; border-radius: 16px; padding: 13px 16px; cursor: pointer; box-shadow: 0 16px 38px rgba(0,0,0,.5); transition: transform .25s ease;" style-hover="transform: translateX(-6px);">
+        <img src="assets/bot-avatar.png" alt="Asistente Artly" style="width: 34px; height: 34px; flex: 0 0 34px; border-radius: 9px; object-fit: cover; background: #131313;" />
+        <span style="display: flex; flex-direction: column; gap: 3px; flex: 1;">
+          <span style="font-family: 'Exo', sans-serif; font-weight: 700; font-size: 18px; color: #ffffff;">Asistente Artly</span>
+          <span style="font-size: 13px; color: rgba(255,255,255,.8);">Respuestas automáticas 24/7</span>
+        </span>
+        <span style="font-size: 16px; color: rgba(255,255,255,.8);">›</span>
+      </button>
+    </div>
+  </sc-if>
+
+  <button type="button" onClick="{{ toggleLauncher }}" aria-label="Abrir opciones de contacto" style="position: fixed; right: 24px; bottom: 24px; z-index: 76; width: 60px; height: 60px; border-radius: 50%; border: 1px solid rgba(63,208,126,0.35); background: radial-gradient(120% 120% at 30% 25%, #45e081, #1fae5d 60%, #128a48); color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 14px 36px -8px rgba(31,174,93,0.6), inset 0 1px 0 rgba(255,255,255,0.25); transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s;" style-hover="transform: translateY(-2px) scale(1.05); box-shadow: 0 18px 44px -8px rgba(31,174,93,0.75);">
+    <span style="position: absolute; inset: -1px; border-radius: 50%; border: 2px solid rgba(63,208,126,0.5); animation: wa-ping 2.6s ease-out infinite; pointer-events: none;"></span>
+    <sc-if value="{{ anyOpen }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size: 30px; font-weight: 300; line-height: 1;">×</span>
+    </sc-if>
+    <sc-if value="{{ noneOpen }}" hint-placeholder-val="{{ true }}">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.24c-.24.68-1.4 1.3-1.93 1.36-.5.06-1.02.28-3.4-.7-2.86-1.18-4.7-4.08-4.84-4.27-.14-.19-1.16-1.55-1.16-2.95 0-1.4.73-2.08 1-2.36.27-.28.6-.35.8-.35.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.08.92 2.23.07.15.12.33.02.52-.1.19-.15.31-.3.48-.15.17-.31.38-.44.5-.15.15-.3.31-.13.6.17.3.76 1.26 1.64 2.04 1.13 1 2.08 1.32 2.38 1.47.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.24.65-.15.27.1 1.7.8 1.99.95.29.15.48.22.55.34.07.13.07.75-.17 1.43z"></path></svg>
+    </sc-if>
+  </button>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;carouselAutoplay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;},&quot;showConsultBadge&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;},&quot;showDangerTape&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;},&quot;chatOpenDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false, chatOpen: false, launcherOpen: false, count: 7, slide: 0, sent: false, error: "", cookies: false, pastHero: false, tapeProgress: 0, activeCase: null, caseVisible: false, draft: "", thinking: false, log: [{ from: "bot", text: "¡Hola! Soy Artly 👋\n¿En qué puedo ayudarte hoy?" }] };
+
+  N8N_URL = "https://n8n-n8n.kwtwgj.easypanel.host/webhook/arte-creativo-chat";
+
+  caseData() {
+    return [
+      { id: "kasaami", label: "Diseño Web para Clínica Estética", title: "Kasaami Care & Beauty", img: "assets/p-kasaami.jpg", caseImg: "assets/case-kasaami.jpg", desc: "Medicina estética y turismo médico en Ecuador, con agenda de citas y recorrido por procedimientos.", story: ["El reto era presentar procedimientos de medicina estética de alto nivel (Face, Body, Breast, Hair, Bariatric Care) a un público que decide su viaje médico desde el extranjero, sin perder cercanía.", "La web combina cifras de resultados, testimonios reales de pacientes y un botón de agenda directa, para que la decisión de viajar a Ecuador se sienta segura desde la pantalla."], href: "Portafolio.dc.html" },
+      { id: "cafe-del-cerro", label: "Diseño Web y E-commerce", title: "Café del Cerro", img: "assets/p-cafe-del-cerro.jpg", caseImg: "assets/case-cafe-del-cerro.jpg", desc: "Café tostado de Zaruma con catálogo bilingüe, fichas de producto y formulario de contacto directo.", story: ["Una marca de café de Zaruma necesitaba vender en español e inglés, con fichas claras de modo de empleo y conservación para cada tipo de tueste.", "Se construyó un catálogo bilingüe con secciones de origen y proceso, para que el comprador entienda el producto antes de escribir."], href: "Portafolio.dc.html" },
+      { id: "los-bifes", label: "Diseño Web para Restaurante", title: "Los Bifes de la Vaca", img: "assets/p-los-bifes.jpg", caseImg: "assets/case-los-bifes.jpg", desc: "Menús, promociones y cinco sucursales en una sola web pensada para reservas y pedidos.", story: ["Un restaurante de parrilla con cinco sucursales necesitaba centralizar menús, promociones y noches de música en vivo en un solo sitio, sin confundir al cliente sobre qué local visitar.", "La solución organiza sucursales, promociones vigentes y reservas de mesa en secciones claras, con llamados a la acción directos por WhatsApp."], href: "Portafolio.dc.html" },
+      { id: "socios", label: "Plataforma de Reservas", title: "SOCIO-S", img: "assets/p-socios.jpg", caseImg: "assets/case-socios.jpg", desc: "Espacios profesionales por horas en cuatro ciudades, con buscador, mapa y reserva por WhatsApp.", story: ["SOCIO-S conecta a profesionales independientes (barberos, fotógrafos, entrenadores) con espacios por hora en cuatro ciudades del Ecuador.", "Se diseñó un buscador por categoría, un mapa interactivo de espacios disponibles y reserva directa por WhatsApp, sin fricción entre buscar y agendar."], href: "Portafolio.dc.html" },
+      { id: "alonja", label: "Diseño Web con Trazabilidad", title: "Alonja Coffee", img: "assets/p-alonja.jpg", caseImg: "assets/case-alonja.jpg", desc: "Rastreo de lotes de café, proceso paso a paso y origen de cada finca ecuatoriana.", story: ["Alonja quería que cada bolsa de café contara su propio origen: fecha de cosecha, finca y proceso de tueste.", "Se implementó un buscador de trazabilidad por código de lote, junto con un recorrido visual de cultivo, recolección, secado y tostado."], href: "Portafolio.dc.html" },
+      { id: "dental-solis", label: "Diseño Web para Consultorio", title: "Consultorio Dental Dr. Javier Solís", img: "assets/p-dental-solis.jpg", caseImg: "assets/case-dental-solis.jpg", desc: "Odontología con enfoque en confianza: agenda de citas visible desde el primer scroll.", story: ["Un consultorio dental necesitaba una landing directa que transmitiera confianza desde el primer vistazo, sin distraer con exceso de secciones.", "El resultado es una página de una sola pantalla con mensaje claro y botón de agenda de cita siempre visible."], href: "Portafolio.dc.html" }
+    ];
+  }
+
+  sessionId() {
+    if (!this._sid) {
+      try {
+        this._sid = window.localStorage.getItem("af-chat-session");
+        if (!this._sid) {
+          this._sid = "visita-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
+          window.localStorage.setItem("af-chat-session", this._sid);
+        }
+      } catch (err) { this._sid = "visita-" + Date.now(); }
+    }
+    return this._sid;
+  }
+
+  scrollLog() { if (this._log) this._log.scrollTop = this._log.scrollHeight; }
+
+  ask(text) {
+    if (!text || this.state.thinking) return;
+    this.setState((s) => ({ log: s.log.concat([{ from: "user", text: text }]), draft: "", thinking: true }));
+    setTimeout(() => this.scrollLog(), 60);
+    const done = (reply) => {
+      this.setState((s) => ({ log: s.log.concat([{ from: "bot", text: reply }]), thinking: false }));
+      setTimeout(() => this.scrollLog(), 60);
+    };
+    fetch(this.N8N_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId: this.sessionId(), message: text })
+    })
+      .then((r) => r.json())
+      .then((d) => done((d && (d.reply || d.output || d.text)) || "Ahora mismo no puedo responder por aquí. Escríbeme por WhatsApp y te contesto directo."))
+      .catch(() => done("Ahora mismo no puedo responder por aquí. Escríbeme por WhatsApp y te contesto directo."));
+  }
+
+  componentDidMount() {
+    let saved = null;
+    try { saved = window.localStorage.getItem("af-cookie-consent"); } catch (err) { saved = null; }
+    if (!saved) this.cookieTimer = setTimeout(() => this.setState({ cookies: true }), 1200);
+
+    if (this.props.chatOpenDefault) this.setState({ chatOpen: true });
+    this.countTimer = setInterval(() => this.setState({ count: 5 + Math.floor(Math.random() * 6) }), 6000);
+
+    const els = Array.from(document.querySelectorAll("[data-reveal]"));
+    els.forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(26px)";
+      const rd = el.getAttribute("data-reveal-delay") || 0;
+      el.style.transition = "opacity .7s ease " + rd + "ms, transform .7s ease " + rd + "ms";
+    });
+    const show = (el) => { el.style.opacity = "1"; el.style.transform = "none"; };
+    if (typeof IntersectionObserver === "function") {
+      this.io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { show(e.target); this.io.unobserve(e.target); } });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+      els.forEach((el) => this.io.observe(el));
+    } else {
+      this.fallback = setTimeout(() => els.forEach(show), 1500);
+    }
+
+    this.onBadgeScroll = () => {
+      const past = window.scrollY > (window.innerHeight || 800) * 0.75;
+      if (past !== this.state.pastHero) this.setState({ pastHero: past });
+    };
+    window.addEventListener("scroll", this.onBadgeScroll, { passive: true });
+    this.onBadgeScroll();
+
+    this.readTape = () => {
+      const sec = this.problemsSection;
+      if (!sec) return;
+      const r = sec.getBoundingClientRect();
+      const vh = window.innerHeight || 800;
+      // Se mide contra la BASE de la sección (donde vive la cinta), no contra su altura:
+      // en móvil la sección es muy alta y el efecto terminaba antes de que la cinta se viera.
+      const d = r.bottom - vh;               // px que faltan para que la base llegue al borde inferior
+      const start = vh * 0.85, end = vh * 0.05;
+      const p = Math.max(0, Math.min(1, (start - d) / (start - end)));
+      if (Math.abs(p - this.state.tapeProgress) > 0.005) this.setState({ tapeProgress: p });
+    };
+    this.onTapeScroll = () => {
+      if (this.tapeRaf) return;
+      this.tapeRaf = requestAnimationFrame(() => { this.tapeRaf = 0; this.readTape(); });
+    };
+    // capture:true para que también funcione si el scroll ocurre en un contenedor (modo presentación)
+    window.addEventListener("scroll", this.onTapeScroll, { passive: true, capture: true });
+    window.addEventListener("resize", this.onTapeScroll, { passive: true });
+    this.tapeTick = setInterval(this.readTape, 250);
+    this.readTape();
+    this.startMarquees();
+
+    if (this.props.carouselAutoplay !== false) this.resumeAuto();
+  }
+
+  // Marquesinas movidas por JS: siguen funcionando aunque el móvil tenga
+  // desactivadas las animaciones del sistema (prefers-reduced-motion).
+  startMarquees() {
+    const els = Array.from(document.querySelectorAll("[data-marquee]"));
+    if (!els.length) { this.marqueeRetry = setTimeout(() => this.startMarquees(), 400); return; }
+    const rows = els.map((el) => ({
+      el,
+      x: 0,
+      speed: (window.innerWidth <= 768 && parseFloat(el.getAttribute("data-marquee-speed-mobile")))
+        || parseFloat(el.getAttribute("data-marquee-speed")) || 40,
+      dir: el.getAttribute("data-marquee") === "-1" ? -1 : 1,
+    }));
+    let last = performance.now();
+    const step = (t) => {
+      const dt = Math.min(0.05, (t - last) / 1000);
+      last = t;
+      rows.forEach((r) => {
+        const half = r.el.scrollWidth / 2;
+        if (!half) return;
+        r.x -= r.dir * r.speed * dt;
+        if (r.x <= -half) r.x += half;
+        if (r.x >= 0) r.x -= half;
+        r.el.style.transform = "translate3d(" + r.x.toFixed(2) + "px,0,0)";
+      });
+      this.marqueeRaf = requestAnimationFrame(step);
+    };
+    this.marqueeRaf = requestAnimationFrame(step);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.countTimer);
+    clearInterval(this.autoTimer);
+    clearTimeout(this.fallback);
+    clearTimeout(this.cookieTimer);
+    if (this.io) this.io.disconnect();
+    window.removeEventListener("scroll", this.onBadgeScroll);
+    window.removeEventListener("scroll", this.onTapeScroll, { capture: true });
+    window.removeEventListener("resize", this.onTapeScroll);
+    clearInterval(this.tapeTick);
+    clearTimeout(this.marqueeRetry);
+    if (this.marqueeRaf) cancelAnimationFrame(this.marqueeRaf);
+    if (this.tapeRaf) cancelAnimationFrame(this.tapeRaf);
+  }
+
+  step() {
+    const t = this.track;
+    if (!t) return 0;
+    return t.scrollWidth / 6;
+  }
+
+  goTo(i) {
+    const t = this.track;
+    if (!t) return;
+    const step = this.step();
+    let left = i * step;
+    if (left > t.scrollWidth - t.clientWidth + 4) { left = 0; i = 0; }
+    t.scrollTo({ left: left, behavior: "smooth" });
+    this.setState({ slide: i });
+  }
+
+  resumeAuto() {
+    if (this.props.carouselAutoplay === false) return;
+    clearInterval(this.autoTimer);
+    this.autoTimer = setInterval(() => this.goTo(this.state.slide + 1), 3500);
+  }
+
+  pauseAuto() { clearInterval(this.autoTimer); }
+
+  renderVals() {
+    const projects = this.caseData().map((c) => ({ ...c, href: "Proyecto.dc.html?id=" + c.id }));
+
+    const bullets = [0, 1, 2, 3, 4, 5].map((i) => ({
+      go: () => { this.pauseAuto(); this.goTo(i); this.resumeAuto(); },
+      on: this.state.slide === i,
+      off: this.state.slide !== i
+    }));
+
+    const testimonials = [
+      { company: "Munay Arte Ecuador", name: "Marco Vinicio", text: "Lograr que una marca de artesanías se vea moderna y global no es fácil. Isaías capturó nuestra esencia y la elevó con una interfaz limpia, funcional y visualmente impactante. Su visión artística combinada con IA nos ha permitido destacar en un mercado muy competitivo." },
+      { company: "Moda WM", name: "Valentina Méndez", text: "Trabajar con Isaías fue un punto de inflexión para nuestro e-commerce. No solo rediseñó el sitio con una estética impecable, sino que implementó una estrategia de conversión que duplicó nuestras ventas en solo tres meses. Entiende el negocio digital como pocos." },
+      { company: "Megalaptops", name: "Elena Santillán", text: "Teníamos procesos manuales lentos para tomar pedidos. Isaías centralizó todo el catálogo y los pedidos por WhatsApp en una plataforma rápida y clara. Hoy vendemos más y respondemos en minutos, no en horas." },
+      { company: "Escuela de Fútbol Propani", name: "Sofía Ramírez", text: "Nuestra web era lenta y transmitía desconfianza. Isaías hizo una auditoría profunda y optimizó todo: SEO técnico, velocidad y experiencia de usuario. Las inscripciones de nuevos alumnos subieron desde el primer mes. ¡Altamente recomendado!" },
+      { company: "Mister Piromania", name: "Julián Castro", text: "Buscábamos algo que rompiera con lo genérico del sector. Isaías fusionó diseño artístico con herramientas de IA para la producción multimedia y logró una web vanguardista que refleja exactamente lo que hacemos en cada espectáculo." },
+      { company: "Barak Inmobiliaria", name: "Michael Chen", text: "Isaías es más que un freelancer: es un arquitecto digital. Tomó nuestras ideas sueltas y las convirtió en un panel autoadministrable con mapas interactivos que multiplicó nuestros prospectos sin depender de portales externos." }
+    ];
+
+    return {
+      projects: projects,
+      bullets: bullets,
+      testimonials: testimonials,
+      testimonialsAlt: testimonials.slice().reverse(),
+      count: this.state.count,
+      menuOpen: this.state.menuOpen,
+      chatOpen: this.state.chatOpen,
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      error: this.state.error,
+      showCookies: this.state.cookies,
+      acceptCookies: () => {
+        try { window.localStorage.setItem("af-cookie-consent", "all"); } catch (err) {}
+        this.setState({ cookies: false });
+      },
+      rejectCookies: () => {
+        try { window.localStorage.setItem("af-cookie-consent", "necessary"); } catch (err) {}
+        this.setState({ cookies: false });
+      },
+      showBadge: this.props.showConsultBadge !== false && this.state.pastHero,
+      showTape: this.props.showDangerTape !== false,
+      toggleMenu: () => this.setState((s) => ({ menuOpen: !s.menuOpen })),
+      onBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ menuOpen: false }); },
+      closeMenu: () => this.setState({ menuOpen: false }),
+      toggleChat: () => this.setState((s) => ({ chatOpen: !s.chatOpen })),
+      launcherOpen: this.state.launcherOpen,
+      anyOpen: this.state.launcherOpen || this.state.chatOpen,
+      noneOpen: !this.state.launcherOpen && !this.state.chatOpen,
+      toggleLauncher: () => this.setState((s) => (s.chatOpen ? { chatOpen: false, launcherOpen: false } : { launcherOpen: !s.launcherOpen })),
+      openBot: () => this.setState({ launcherOpen: false, chatOpen: true }),
+      backToLauncher: () => this.setState({ chatOpen: false, launcherOpen: true }),
+      closeAll: () => this.setState({ chatOpen: false, launcherOpen: false }),
+      thinking: this.state.thinking,
+      draft: this.state.draft,
+      logRef: (el) => { this._log = el; },
+      messages: this.state.log.map((m) => ({
+        text: m.text,
+        align: m.from === "user" ? "flex-end" : "flex-start",
+        bg: m.from === "user" ? "#f3c13b" : "rgba(255,255,255,.07)",
+        color: m.from === "user" ? "#101010" : "rgba(255,255,255,.92)"
+      })),
+      quick: [
+        { label: "📍 Ubicación en Quito", send: () => this.ask("¿Dónde están ubicados en Quito?") },
+        { label: "📁 Ver Portafolio", send: () => this.ask("Quiero ver el portafolio de proyectos") },
+        { label: "💲 Consultar Precios", send: () => this.ask("¿Cuánto cuesta una página web?") }
+      ],
+      problemsRef: (el) => { if (el) { this.problemsSection = el; if (this.onTapeScroll) this.onTapeScroll(); } },
+      tapeOpacity: Math.min(1, this.state.tapeProgress * 1.5),
+      tapeOffset: Math.round((1 - this.state.tapeProgress) * 260),
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      onSend: (e) => { e.preventDefault(); this.ask(this.state.draft.trim()); },
+      resetChat: () => this.setState({ log: [{ from: "bot", text: "¡Hola! Soy Artly 👋\n¿En qué puedo ayudarte hoy?" }], draft: "", thinking: false }),
+      onAvatarMove: (e) => {
+        const el = e.currentTarget;
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transition = "transform .12s ease-out";
+        el.style.transform = "perspective(900px) rotateY(" + (-x * 14) + "deg) rotateX(" + (y * 14) + "deg) translate3d(" + (-x * 18) + "px," + (-y * 14) + "px,0)";
+      },
+      onAvatarLeave: (e) => {
+        const el = e.currentTarget;
+        el.style.transition = "transform .6s cubic-bezier(.2,.8,.2,1)";
+        el.style.transform = "none";
+      },
+      trackRef: (el) => { this.track = el; },
+      onTrackScroll: () => {
+        const t = this.track;
+        if (!t) return;
+        const i = Math.round(t.scrollLeft / this.step());
+        if (i !== this.state.slide) this.setState({ slide: i });
+      },
+      pauseAuto: () => this.pauseAuto(),
+      resumeAuto: () => this.resumeAuto(),
+      onSubmit: (e) => {
+        e.preventDefault();
+        const f = e.target;
+        const msg = "Hola Isaías, quiero cotizar un proyecto.\n\nNombre: " + f.elements.nombre.value + "\nCelular: " + f.elements.telefono.value + "\nProyecto: " + (f.elements.mensaje ? f.elements.mensaje.value : "");
+        window.open("https://wa.me/593998381419?text=" + encodeURIComponent(msg), "_blank");
+        this.setState({ sent: true, error: "" });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
