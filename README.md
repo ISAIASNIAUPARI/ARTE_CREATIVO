@@ -2,28 +2,35 @@
 
 Sitio web de portafolio para Alex Anrrango, diseñador web freelance en Quito.
 
+Next.js (App Router) + Sanity como CMS. El panel de edición vive en `/studio`.
+
 ## Estructura
 
-- `index.html` — Inicio
-- `Nosotros.dc.html` — Sobre mí
-- `Portafolio.dc.html` — Portafolio de proyectos
-- `Blog.dc.html` — Blog / herramientas usadas
-- `Proyecto.dc.html` — Detalle de proyecto
-- `Contacto.dc.html` — Contacto
-- `support.js` — runtime que interpreta los componentes de las páginas (debe cargarse en todas)
-- `assets/` — imágenes y video usados por el sitio
+- `app/(site)/` — páginas públicas (Inicio, Nosotros, Portafolio, Blog, Contacto, Proyecto/[slug])
+- `app/studio/` — panel de Sanity, aislado del CSS del sitio público
+- `components/` — componentes compartidos (header, footer, formulario, marquesinas, etc.)
+- `sanity/schemaTypes/` — define las secciones del panel; `sanity/structure.ts` define el menú lateral
+- `scripts/seed.mjs` — carga el contenido inicial en un proyecto Sanity nuevo
 
-## Ver en local
-
-Abre `index.html` en un navegador, o sirve la carpeta con cualquier servidor estático:
+## Desarrollo local
 
 ```bash
-npx serve .
+npm install
+cp .env.example .env.local   # completar con el projectId de Sanity
+npm run dev
 ```
 
-## Publicar con GitHub Pages
+## Cargar contenido en un proyecto Sanity nuevo
 
-Settings → Pages → Deploy from a branch → `main` / `/(root)`. `index.html` ya está en la raíz.
+```bash
+npm run seed
+```
+
+Sube las imágenes de referencia y crea las secciones con contenido real. Requiere `SANITY_API_WRITE_TOKEN` en `.env.local` (nunca se commitea).
+
+## Despliegue
+
+Vercel, conectado a este repositorio — cada push a `main` despliega solo. Variables de entorno: `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`.
 
 ## Notas de desarrollo
 
