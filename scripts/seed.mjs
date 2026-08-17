@@ -74,8 +74,12 @@ async function main() {
     whatsappShortLink: 'https://w.app/ztwmvu',
     footerCopyright: 'Todos los derechos reservados. © Isaías Freelancer 2026',
     chatEnabled: true,
+    // Nivel 2 (protocolo de ciberseguridad): el navegador ya envía esta clave en cada
+    // request del chat, así que tenerla aquí no abre una exposición nueva. Si el
+    // agente de n8n vuelve a cambiar de endpoint/clave, solo hay que tocar este valor
+    // (o el campo "Webhook del asistente" en Ajustes generales del Studio).
     chatWebhookUrl:
-      'https://n8n-n8n.kwtwgj.easypanel.host/webhook/arte-creativo-chat?key=8d5a915c2d3850ce8093f082fd516793635c75271097b93f',
+      'https://n8n-n8n.kwtwgj.easypanel.host/webhook/arte-creativo-completo?key=714a2572a710151d07155979eaa4676a7f1f4f99ab6474fb',
     chatBotAvatar: botAvatar,
     chatQuickReplies: [
       { _key: 'q1', label: '📍 Ubicación en Quito', question: '¿Dónde están ubicados en Quito?' },
