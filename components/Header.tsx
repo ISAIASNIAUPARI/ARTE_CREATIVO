@@ -81,8 +81,8 @@ export default function Header({
             cursor: 'pointer',
           }}
         >
-          <span style={{ display: 'block', width: 36, height: 9, borderRadius: 4, background: '#ffffff' }} />
-          <span style={{ display: 'block', width: 36, height: 9, borderRadius: 4, background: '#ffffff' }} />
+          <span style={{ display: 'block', width: 42, height: 9, borderRadius: 4, background: '#ffffff' }} />
+          <span style={{ display: 'block', width: 42, height: 9, borderRadius: 4, background: '#ffffff' }} />
         </button>
       </header>
 
