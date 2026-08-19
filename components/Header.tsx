@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { urlFor } from '@/lib/sanity/image'
 import type { SiteSettings } from '@/lib/sanity/types'
 
@@ -22,7 +23,17 @@ export default function Header({
   settings: SiteSettings
 }) {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
   const logoUrl = settings.logo ? urlFor(settings.logo).height(132).url() : null
+
+  // El (site) layout persiste entre páginas (navegación SPA de Next.js), así
+  // que este componente no se vuelve a montar al cambiar de ruta como pasaba
+  // con los <a href> de recarga completa del sitio original. Sin este efecto,
+  // el menú se queda abierto tapando la página nueva hasta que el usuario
+  // pulsa la X a mano.
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <>
