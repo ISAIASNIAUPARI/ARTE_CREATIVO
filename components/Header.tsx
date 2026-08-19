@@ -70,6 +70,7 @@ export default function Header({
           style={{
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'center',
             gap: 6,
             width: 54,
@@ -80,8 +81,8 @@ export default function Header({
             cursor: 'pointer',
           }}
         >
-          <span style={{ display: 'block', height: 7, borderRadius: 3, background: '#ffffff' }} />
-          <span style={{ display: 'block', height: 7, borderRadius: 3, background: '#ffffff' }} />
+          <span style={{ display: 'block', width: 36, height: 9, borderRadius: 4, background: '#ffffff' }} />
+          <span style={{ display: 'block', width: 36, height: 9, borderRadius: 4, background: '#ffffff' }} />
         </button>
       </header>
 
