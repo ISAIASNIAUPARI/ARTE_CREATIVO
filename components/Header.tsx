@@ -82,7 +82,6 @@ export default function Header({
         >
           <span style={{ display: 'block', height: 7, borderRadius: 3, background: '#ffffff' }} />
           <span style={{ display: 'block', height: 7, borderRadius: 3, background: '#ffffff' }} />
-          <span style={{ display: 'block', height: 7, borderRadius: 3, background: '#ffffff' }} />
         </button>
       </header>
 
