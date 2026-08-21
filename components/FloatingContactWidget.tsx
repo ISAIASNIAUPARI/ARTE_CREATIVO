@@ -16,11 +16,11 @@ const DEFAULT_QUICK: { label: string; question: string }[] = [
 const WELCOME: ChatMessage = { from: 'bot', text: '¡Hola! Soy Artly 👋\n¿En qué puedo ayudarte hoy?' }
 
 /**
- * Exclusivo de la portada: botón flotante que alterna entre una tarjeta de
- * WhatsApp y el bot "Artly" (conectado al webhook de n8n en Sanity), más el
- * badge de "N personas consultando" (solo tras pasar el hero).
+ * Botón flotante compartido por todas las páginas: alterna entre una tarjeta
+ * de WhatsApp y el bot "Artly" (conectado al webhook de n8n en Sanity), más
+ * el badge de "N personas consultando" (tras bajar un poco en la página).
  */
-export default function HomeFloatingWidget({ settings }: { settings: SiteSettings }) {
+export default function FloatingContactWidget({ settings }: { settings: SiteSettings }) {
   const [launcherOpen, setLauncherOpen] = useState(false)
   const [chatOpen, setChatOpen] = useState(false)
   const [pastHero, setPastHero] = useState(false)

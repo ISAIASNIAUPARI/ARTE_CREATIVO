@@ -5,8 +5,7 @@ import type { ReactNode } from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import CookieBanner from './CookieBanner'
-import HomeFloatingWidget from './HomeFloatingWidget'
-import SimpleFloatingWidget from './SimpleFloatingWidget'
+import FloatingContactWidget from './FloatingContactWidget'
 import type { SiteSettings } from '@/lib/sanity/types'
 
 export default function SiteChrome({ settings, children }: { settings: SiteSettings; children: ReactNode }) {
@@ -19,7 +18,7 @@ export default function SiteChrome({ settings, children }: { settings: SiteSetti
       <Header active={pathname} settings={settings} />
       {children}
       <Footer settings={settings} variant={isContacto ? 'light' : 'dark'} />
-      {isHome ? <HomeFloatingWidget settings={settings} /> : <SimpleFloatingWidget settings={settings} />}
+      <FloatingContactWidget settings={settings} />
       <CookieBanner withPolicyLinks={isHome} />
     </div>
   )
