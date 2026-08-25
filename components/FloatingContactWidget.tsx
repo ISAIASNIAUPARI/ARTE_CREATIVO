@@ -35,25 +35,6 @@ function isPortfolioIntent(text: string) {
   )
 }
 
-// Igual que el portafolio: quién es el fundador/dueño no depende de que la IA
-// lo acierte cada vez (a veces respondía "no tengo información") — se
-// responde siempre igual, sin pasar por el webhook.
-const FOUNDER_REPLY: ChatMessage = {
-  from: 'bot',
-  text: '👋 Isaías Niaupari es el fundador de Arte Creativo, un estudio digital freelance en Quito, Ecuador. Si tienes preguntas sobre nuestros servicios o precios, no dudes en preguntar.',
-}
-
-function isFounderIntent(text: string) {
-  const t = text.toLowerCase()
-  const namesFounder = t.includes('isaias') || t.includes('isaías')
-  const roleWords = ['fundador', 'fundadora', 'dueño', 'dueña', 'dueno', 'duena', 'creador', 'creadora', 'propietario', 'propietaria']
-  const mentionsRole = roleWords.some((w) => t.includes(w))
-  const asksWho = t.includes('quien') || t.includes('quién') || t.includes('quién eres') || t.includes('quien eres')
-  const aboutBrand =
-    t.includes('arte creativo') || t.includes('el estudio') || t.includes('la marca') || t.includes('la empresa') || t.includes('detras') || t.includes('detrás')
-  return namesFounder || mentionsRole || (asksWho && aboutBrand) || t.includes('quien eres') || t.includes('quién eres')
-}
-
 /**
  * Botón flotante compartido por todas las páginas: alterna entre una tarjeta
  * de WhatsApp y el bot "Artly" (conectado al webhook de n8n en Sanity), más
@@ -103,12 +84,6 @@ export default function FloatingContactWidget({ settings }: { settings: SiteSett
     if (!text || thinking) return
     if (isPortfolioIntent(text)) {
       setLog((l) => [...l, { from: 'user', text }, PORTFOLIO_REPLY])
-      setDraft('')
-      setTimeout(scrollLog, 60)
-      return
-    }
-    if (isFounderIntent(text)) {
-      setLog((l) => [...l, { from: 'user', text }, FOUNDER_REPLY])
       setDraft('')
       setTimeout(scrollLog, 60)
       return
