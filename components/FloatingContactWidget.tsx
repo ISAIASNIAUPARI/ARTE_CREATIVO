@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { urlFor } from '@/lib/sanity/image'
 import type { SiteSettings } from '@/lib/sanity/types'
 
-type ChatMessage = { from: 'bot' | 'user'; text: string }
+type ChatMessage = { from: 'bot' | 'user'; text: string; cta?: { label: string; href: string } }
 
 const DEFAULT_QUICK: { label: string; question: string }[] = [
   { label: '📍 Ubicación en Quito', question: '¿Dónde están ubicados en Quito?' },
@@ -14,6 +15,25 @@ const DEFAULT_QUICK: { label: string; question: string }[] = [
 ]
 
 const WELCOME: ChatMessage = { from: 'bot', text: '¡Hola! Soy Artly 👋\n¿En qué puedo ayudarte hoy?' }
+
+// El pedido de "ver portafolio" no pasa por el agente de IA: es una acción de
+// menú, igual que las tarjetas del launcher — responde con un mensaje fijo y
+// un botón que lleva a la sección real de proyectos, sin gastar una llamada
+// al webhook de n8n por algo que ya sabemos responder.
+const PORTFOLIO_REPLY: ChatMessage = {
+  from: 'bot',
+  text: '¡Claro! Aquí tienes todos los proyectos que hemos realizado.',
+  cta: { label: 'Ver más →', href: '/portafolio' },
+}
+
+function isPortfolioIntent(text: string) {
+  const t = text.toLowerCase()
+  return (
+    t.includes('portafolio') ||
+    t.includes('portfolio') ||
+    (t.includes('proyecto') && (t.includes('ver') || t.includes('realizad') || t.includes('trabajo')))
+  )
+}
 
 /**
  * Botón flotante compartido por todas las páginas: alterna entre una tarjeta
@@ -61,7 +81,14 @@ export default function FloatingContactWidget({ settings }: { settings: SiteSett
   }
 
   const ask = (text: string) => {
-    if (!text || thinking || !settings.chatWebhookUrl) return
+    if (!text || thinking) return
+    if (isPortfolioIntent(text)) {
+      setLog((l) => [...l, { from: 'user', text }, PORTFOLIO_REPLY])
+      setDraft('')
+      setTimeout(scrollLog, 60)
+      return
+    }
+    if (!settings.chatWebhookUrl) return
     setLog((l) => [...l, { from: 'user', text }])
     setDraft('')
     setThinking(true)
@@ -209,23 +236,43 @@ export default function FloatingContactWidget({ settings }: { settings: SiteSett
 
           <div ref={logRef} style={{ maxHeight: 'min(300px, 34vh)', overflowY: 'auto', padding: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
             {log.map((m, i) => (
-              <p
+              <div
                 key={i}
                 style={{
-                  margin: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
                   maxWidth: '88%',
-                  fontSize: 14,
-                  lineHeight: 1.55,
-                  borderRadius: 14,
-                  padding: '12px 14px',
-                  whiteSpace: 'pre-wrap',
                   alignSelf: m.from === 'user' ? 'flex-end' : 'flex-start',
-                  background: m.from === 'user' ? '#f3c13b' : 'rgba(255,255,255,.07)',
-                  color: m.from === 'user' ? '#101010' : 'rgba(255,255,255,.92)',
                 }}
               >
-                {m.text}
-              </p>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: 14,
+                    lineHeight: 1.55,
+                    borderRadius: 14,
+                    padding: '12px 14px',
+                    whiteSpace: 'pre-wrap',
+                    background: m.from === 'user' ? '#f3c13b' : 'rgba(255,255,255,.07)',
+                    color: m.from === 'user' ? '#101010' : 'rgba(255,255,255,.92)',
+                  }}
+                >
+                  {m.text}
+                </p>
+                {m.cta && (
+                  <Link
+                    href={m.cta.href}
+                    onClick={() => {
+                      setChatOpen(false)
+                      setLauncherOpen(false)
+                    }}
+                    className="af-chat-cta"
+                  >
+                    {m.cta.label}
+                  </Link>
+                )}
+              </div>
             ))}
             {thinking && (
               <p

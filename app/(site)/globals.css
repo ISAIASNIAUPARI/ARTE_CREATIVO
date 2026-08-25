@@ -301,6 +301,24 @@ button {
   background: #f3c13b;
 }
 
+/* FloatingContactWidget: el botón "Ver más" del chat usa <Link>, mismo motivo. */
+.af-chat-cta {
+  align-self: flex-start;
+  background: #e6bb52;
+  color: #161616;
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.4px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  transition: background 0.25s ease;
+}
+.af-chat-cta:hover {
+  background: #f3c13b;
+  color: #161616;
+}
+
 /* Header: el menú móvil usa <Link>, mismo motivo que arriba. */
 .af-menu-close:hover {
   color: #f3c13b;
