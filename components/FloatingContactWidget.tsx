@@ -22,7 +22,7 @@ const WELCOME: ChatMessage = { from: 'bot', text: '¡Hola! Soy Artly 👋\n¿En 
 // al webhook de n8n por algo que ya sabemos responder.
 const PORTFOLIO_REPLY: ChatMessage = {
   from: 'bot',
-  text: '¡Claro! Aquí tienes todos los proyectos que hemos realizado.',
+  text: '📁 ¡Claro! Aquí tienes todos los proyectos que hemos realizado.',
   cta: { label: 'Ver más →', href: '/portafolio' },
 }
 
