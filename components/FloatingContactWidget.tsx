@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity/image'
@@ -33,6 +33,32 @@ function isPortfolioIntent(text: string) {
     t.includes('portfolio') ||
     (t.includes('proyecto') && (t.includes('ver') || t.includes('realizad') || t.includes('trabajo')))
   )
+}
+
+// El agente a veces manda un link (ej. el evento de Calendar de una cita) en
+// formato markdown [texto](url), o como URL suelta. El burbuja del chat es
+// texto plano, así que sin esto se veía el link crudo en vez de un botón.
+const LINK_PATTERN = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s)]+)/g
+
+function renderMessageText(text: string) {
+  const nodes: ReactNode[] = []
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+  let key = 0
+  LINK_PATTERN.lastIndex = 0
+  while ((match = LINK_PATTERN.exec(text))) {
+    if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index))
+    const label = match[1] || 'Abrir enlace →'
+    const url = match[2] || match[3]
+    nodes.push(
+      <a key={key++} href={url} target="_blank" rel="noopener noreferrer" className="af-chat-link">
+        {label}
+      </a>
+    )
+    lastIndex = LINK_PATTERN.lastIndex
+  }
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex))
+  return nodes
 }
 
 /**
@@ -258,7 +284,7 @@ export default function FloatingContactWidget({ settings }: { settings: SiteSett
                     color: m.from === 'user' ? '#101010' : 'rgba(255,255,255,.92)',
                   }}
                 >
-                  {m.text}
+                  {renderMessageText(m.text)}
                 </p>
                 {m.cta && (
                   <Link
@@ -526,6 +552,14 @@ export default function FloatingContactWidget({ settings }: { settings: SiteSett
         }
         .af-chat-reset:hover {
           color: #f6d98d;
+        }
+        .af-chat-link {
+          color: #f3c13b;
+          text-decoration: underline;
+          word-break: break-word;
+        }
+        .af-chat-link:hover {
+          color: #ffffff;
         }
         .af-launcher-card {
           display: flex;
