@@ -335,6 +335,9 @@ export default function FloatingContactWidget({ settings }: { settings: SiteSett
             <button
               type="button"
               onClick={() => {
+                const newSid = `visita-${Date.now()}-${Math.floor(Math.random() * 1000)}`
+                sidRef.current = newSid
+                try { window.localStorage.setItem('af-chat-session', newSid) } catch {}
                 setLog([WELCOME])
                 setDraft('')
                 setThinking(false)
