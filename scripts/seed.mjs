@@ -67,7 +67,7 @@ async function main() {
     brandName: 'Arte Creativo',
     logo,
     phoneDisplay: '+593 96 260 6760',
-    email: 'info@alexfreelancer.com',
+    email: 'info@isaiasfreelancer.com',
     addressLine: 'Quito - Ecuador',
     mapLink: 'https://maps.app.goo.gl/YcRFeSqC4J721aLz5',
     whatsappNumber: '593998381419',

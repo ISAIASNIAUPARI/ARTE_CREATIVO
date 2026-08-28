@@ -1,4 +1,4 @@
-# Portfolio web para Alex Freelancer
+# Portfolio web para Isaías Freelancer
 
 ## Organización del trabajo por fases
 El trabajo se organiza en FASES (equivalentes a versiones). Al empezar cualquier

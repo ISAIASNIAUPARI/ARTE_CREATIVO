@@ -1,6 +1,6 @@
-# ARTE CREATIVO — Portafolio web de Alex Freelancer
+# ARTE CREATIVO — Portafolio web de Isaías Freelancer
 
-Sitio web de portafolio para Alex Anrrango, diseñador web freelance en Quito.
+Sitio web de portafolio para Isaías Anrrango, diseñador web freelance en Quito.
 
 Next.js (App Router) + Sanity como CMS. El panel de edición vive en `/studio`.
 
