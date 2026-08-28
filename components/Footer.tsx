@@ -49,6 +49,22 @@ export default function Footer({
       <p style={{ margin: 0, fontSize: 14, color: light ? '#1c1c1c' : 'rgba(255,255,255,.6)' }}>
         {settings.footerCopyright}
       </p>
+      <Link
+        href="/politica-de-privacidad"
+        style={{
+          display: 'inline-block',
+          marginTop: 14,
+          padding: '5px 16px',
+          border: `1px solid ${light ? 'rgba(28,28,28,.35)' : 'rgba(255,255,255,.25)'}`,
+          borderRadius: 20,
+          fontSize: 12,
+          color: light ? '#1c1c1c' : 'rgba(255,255,255,.55)',
+          textDecoration: 'none',
+          letterSpacing: '0.03em',
+        }}
+      >
+        Política de Privacidad
+      </Link>
     </footer>
   )
 }
