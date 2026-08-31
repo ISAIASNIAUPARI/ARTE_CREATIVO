@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { client } from '@/lib/sanity/client'
+import { fetchData } from '@/lib/sanity/fetch'
 import {
   blogHeroQuery,
   toolCardsQuery,
@@ -20,11 +20,11 @@ export const revalidate = 60
 
 export default async function BlogPage() {
   const [hero, tools, testimonial, cta, settings] = await Promise.all([
-    client.fetch(blogHeroQuery),
-    client.fetch<ToolCard[]>(toolCardsQuery),
-    client.fetch(featuredTestimonialQuery),
-    client.fetch(contactCtaQuery),
-    client.fetch<SiteSettings>(siteSettingsQuery),
+    fetchData(blogHeroQuery),
+    fetchData<ToolCard[]>(toolCardsQuery),
+    fetchData(featuredTestimonialQuery),
+    fetchData(contactCtaQuery),
+    fetchData<SiteSettings>(siteSettingsQuery),
   ])
 
   const headingParts = hero.headingHighlight ? hero.heading.split(hero.headingHighlight) : [hero.heading]

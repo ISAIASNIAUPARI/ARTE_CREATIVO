@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { client } from '@/lib/sanity/client'
+import { fetchData } from '@/lib/sanity/fetch'
 import {
   projectBySlugQuery,
   relatedProjectsQuery,
@@ -30,13 +31,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProyectoPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const project = await client.fetch<Project | null>(projectBySlugQuery, { slug })
+  const project = await fetchData<Project | null>(projectBySlugQuery, { slug })
   if (!project) notFound()
 
   const [related, cta, settings] = await Promise.all([
-    client.fetch<{ _id: string; title: string; slug: string; image: Project['image'] }[]>(relatedProjectsQuery, { slug }),
-    client.fetch(contactCtaQuery),
-    client.fetch<SiteSettings>(siteSettingsQuery),
+    fetchData<{ _id: string; title: string; slug: string; image: Project['image'] }[]>(relatedProjectsQuery, { slug }),
+    fetchData(contactCtaQuery),
+    fetchData<SiteSettings>(siteSettingsQuery),
   ])
 
   const caseImgUrl = project.caseImage ? urlFor(project.caseImage).width(1200).url() : null

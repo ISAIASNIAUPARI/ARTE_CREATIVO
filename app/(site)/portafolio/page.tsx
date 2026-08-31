@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client'
+import { fetchData } from '@/lib/sanity/fetch'
 import {
   portfolioHeroQuery,
   allProjectsQuery,
@@ -19,11 +19,11 @@ export const revalidate = 60
 
 export default async function PortafolioPage() {
   const [hero, projects, testimonial, cta, settings] = await Promise.all([
-    client.fetch(portfolioHeroQuery),
-    client.fetch<Project[]>(allProjectsQuery),
-    client.fetch(featuredTestimonialQuery),
-    client.fetch(contactPageCtaQuery),
-    client.fetch<SiteSettings>(siteSettingsQuery),
+    fetchData(portfolioHeroQuery),
+    fetchData<Project[]>(allProjectsQuery),
+    fetchData(featuredTestimonialQuery),
+    fetchData(contactPageCtaQuery),
+    fetchData<SiteSettings>(siteSettingsQuery),
   ])
 
   const headingParts = hero.headingHighlight ? hero.heading.split(hero.headingHighlight) : [hero.heading]

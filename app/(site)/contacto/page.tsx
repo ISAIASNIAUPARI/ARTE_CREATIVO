@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client'
+import { fetchData } from '@/lib/sanity/fetch'
 import { contactHeroQuery, contactPageCtaQuery, siteSettingsQuery } from '@/lib/sanity/queries'
 import type { SiteSettings } from '@/lib/sanity/types'
 import Reveal from '@/components/Reveal'
@@ -10,9 +10,9 @@ export const revalidate = 60
 
 export default async function ContactoPage() {
   const [hero, cta, settings] = await Promise.all([
-    client.fetch(contactHeroQuery),
-    client.fetch(contactPageCtaQuery),
-    client.fetch<SiteSettings>(siteSettingsQuery),
+    fetchData(contactHeroQuery),
+    fetchData(contactPageCtaQuery),
+    fetchData<SiteSettings>(siteSettingsQuery),
   ])
 
   return (

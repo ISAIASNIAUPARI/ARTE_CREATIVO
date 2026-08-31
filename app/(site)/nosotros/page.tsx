@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client'
+import { fetchData } from '@/lib/sanity/fetch'
 import {
   nosotrosHeroQuery,
   nosotrosPillarsQuery,
@@ -36,12 +36,12 @@ const PILLAR_ICONS = [
 
 export default async function NosotrosPage() {
   const [hero, pillars, workStyle, bio, cta, settings] = await Promise.all([
-    client.fetch(nosotrosHeroQuery),
-    client.fetch(nosotrosPillarsQuery),
-    client.fetch(nosotrosWorkStyleQuery),
-    client.fetch(nosotrosBioQuery),
-    client.fetch(contactCtaQuery),
-    client.fetch<SiteSettings>(siteSettingsQuery),
+    fetchData(nosotrosHeroQuery),
+    fetchData(nosotrosPillarsQuery),
+    fetchData(nosotrosWorkStyleQuery),
+    fetchData(nosotrosBioQuery),
+    fetchData(contactCtaQuery),
+    fetchData<SiteSettings>(siteSettingsQuery),
   ])
 
   const headingParts = hero.headingHighlight ? hero.heading.split(hero.headingHighlight) : [hero.heading]

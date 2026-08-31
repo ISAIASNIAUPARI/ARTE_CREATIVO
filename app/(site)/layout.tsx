@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { client } from '@/lib/sanity/client'
+import { fetchData } from '@/lib/sanity/fetch'
 import { siteSettingsQuery } from '@/lib/sanity/queries'
 import type { SiteSettings } from '@/lib/sanity/types'
 import SiteChrome from '@/components/SiteChrome'
@@ -10,7 +10,7 @@ import './globals.css'
 // (Se evita next/font porque los nombres de familia generados no coinciden
 // con los literales 'Exo'/'Ubuntu' usados en los estilos inline portados.)
 export default async function SiteLayout({ children }: { children: ReactNode }) {
-  const settings = await client.fetch<SiteSettings>(siteSettingsQuery)
+  const settings = await fetchData<SiteSettings>(siteSettingsQuery)
 
   return (
     <>
