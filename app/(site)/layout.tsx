@@ -1,8 +1,12 @@
 import type { ReactNode } from 'react'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity'
 import { fetchData } from '@/lib/sanity/fetch'
+import { SanityLive } from '@/lib/sanity/live'
 import { siteSettingsQuery } from '@/lib/sanity/queries'
 import type { SiteSettings } from '@/lib/sanity/types'
 import SiteChrome from '@/components/SiteChrome'
+import DisableDraftMode from '@/components/DisableDraftMode'
 import './globals.css'
 
 // Google Fonts vía <link>, igual que el sitio original — React 19 hoistea
@@ -11,6 +15,7 @@ import './globals.css'
 // con los literales 'Exo'/'Ubuntu' usados en los estilos inline portados.)
 export default async function SiteLayout({ children }: { children: ReactNode }) {
   const settings = await fetchData<SiteSettings>(siteSettingsQuery)
+  const { isEnabled: previewing } = await draftMode()
 
   return (
     <>
@@ -21,6 +26,15 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
         rel="stylesheet"
       />
       <SiteChrome settings={settings}>{children}</SiteChrome>
+      {/* Conexión en vivo: re-renderiza al instante cuando cambia el contenido. */}
+      <SanityLive />
+      {/* Solo en modo vista previa del Studio: overlays de clic-para-editar. */}
+      {previewing && (
+        <>
+          <VisualEditing />
+          <DisableDraftMode />
+        </>
+      )}
     </>
   )
 }

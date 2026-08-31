@@ -1,7 +1,4 @@
 import type { ReactNode } from 'react'
-import { draftMode } from 'next/headers'
-import { VisualEditing } from 'next-sanity'
-import DisableDraftMode from '@/components/DisableDraftMode'
 
 export const metadata = {
   title: 'Arte Creativo — Diseño Web en Quito',
@@ -10,22 +7,12 @@ export const metadata = {
 
 // Layout raíz: deliberadamente sin CSS del sitio público. El reset de
 // globals.css vive en app/(site)/layout.tsx para que /studio no lo herede.
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  const { isEnabled: previewing } = await draftMode()
-
+// La vista previa en vivo (SanityLive / VisualEditing) también vive en (site)
+// para que /studio no la cargue.
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
-      <body>
-        {children}
-        {/* Solo en modo vista previa del Studio: overlays de clic-para-editar
-            y botón para salir. Cero efecto para visitantes normales. */}
-        {previewing && (
-          <>
-            <VisualEditing />
-            <DisableDraftMode />
-          </>
-        )}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
